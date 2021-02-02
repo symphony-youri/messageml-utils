@@ -1,4 +1,4 @@
-name: Release2
+name: Release
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Release and deploy with Maven
-        run: mvn -B --file pom.xml release:prepare -Prelease -DdevelopmentVersion=${{ github.event.inputs.dev-version }} -DreleaseVersion=${{ github.event.inputs.release-version }}
+        run: mvn -B --file pom.xml release:prepare release:perform -Prelease -DdevelopmentVersion=${{ github.event.inputs.dev-version }} -DreleaseVersion=${{ github.event.inputs.release-version }}
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_PASSWORD }}
